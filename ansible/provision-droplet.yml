@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Uploading SSH public key to DigitalOcean
+    digital_ocean:
+      state: present
+      command: ssh
+      name: some-ssh-key
+      api_token: {{ api-token }}
+      ssh_pub_key: 'ssh-rsa AAAA...'
+
+  - name: Creating or ensuring droplet is created
+    digital_ocean:
+      state: present
+      command: droplet
+      id: {{ droplet-id }}
+      name: my-toptal-droplet
+      api_token: {{ api-token }}
+      size_id: 2gb
+      region_id: lon1
+      image_id: centos-7-x64
+      ssh_key_ids: {{ ssh-key-id }}
+      wait_timeout: 500
